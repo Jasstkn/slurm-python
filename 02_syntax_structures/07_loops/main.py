@@ -3,25 +3,22 @@ def calc_average_load(load):
     for element in load:
         avg_load += element
 
-    return avg_load / len(cleaned_rps_values)
+    return avg_load / len(load)
 
 
-def calc_median_load(load):
-    mdn_load = 0
-    load = sorted(load)
-    quotient, remainder = divmod(len(load), 2)
-    return load[quotient] if remainder else sum(load[quotient - 1:quotient + 1]) / 2
+def calc_median(load):
+    sorted_load = sorted(load)
+    quotient, remainder = divmod(len(sorted_load), 2)
+    return sorted_load[quotient] if remainder else sum(sorted_load[quotient - 1:quotient + 1]) / 2
 
 
-def define_load_type(avg_load, mdn_load):
-    if avg_load == mdn_load:
-        load_type = "Стабильная"
+def get_load_type(avg_load, mdn_load):
+    if avg_load - 0.3 * avg_load < mdn_load or mdn_load < avg_load + 0.3 * avg_load:
+        return "Стабильная"
     elif avg_load < mdn_load:
-        load_type = "Снижения"
+        return "Снижения"
     else:
-        load_type = "Скачки"
-
-    return load_type
+        return "Скачки"
 
 
 if __name__ == '__main__':
@@ -32,8 +29,8 @@ if __name__ == '__main__':
                   '7335',
                   '11531', '14346', 7493, 15850, '12791', 11288)
 
-    cleaned_rps_values = [int(element) for element in rps_values]
-    average_load = calc_average_load(cleaned_rps_values)
-    median_load = calc_median_load(cleaned_rps_values)
-    load_result = define_load_type(average_load, median_load)
-    print(average_load, median_load, load_result)
+    int_rps_values = [int(element) for element in rps_values]
+    average_load = int(sum(int_rps_values) / len(int_rps_values))
+    median = int(calc_median(int_rps_values))
+    load_result = get_load_type(average_load, median)
+    print(average_load, median, load_result)
