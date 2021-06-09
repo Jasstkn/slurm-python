@@ -1,5 +1,3 @@
-# TODO: В ветке <название_ветки> непроверенный код, пропускаем
-
 branch = input()
 tests_passed = int(input())
 coverage = float(input())

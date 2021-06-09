@@ -5,28 +5,15 @@
 CONTAINERS_IN_POD = 4
 PODS_IN_NODE = 117
 NODES_IN_DC = 21
-
-
-def count_dcs(containers_num):
-    return containers_num / CONTAINERS_IN_POD / PODS_IN_NODE / NODES_IN_DC
-
-
-def calc_free_memory(num_dcs):
-    memory_limit_gb = 16
-    memory_limit_mb = memory_limit_gb * 1024
-    container_memory = 30
-    return (memory_limit_mb * num_dcs * NODES_IN_DC) - containers * container_memory
-
-
-def convert(result):
-
-    return result // 1024, result % 1024
+MEMORY_LIMIT_GB = 16
+MEMORY_LIMIT_MB = MEMORY_LIMIT_GB * 1024
+CONTAINER_MEMORY = 30
 
 
 if __name__ == '__main__':
     containers = 68796
-    number_dcs = count_dcs(containers)
-    memory_free = calc_free_memory(number_dcs)
-    human_result_gb, human_result_mb = convert(memory_free)
+    number_dcs = containers / CONTAINERS_IN_POD / PODS_IN_NODE / NODES_IN_DC
+    memory_free = (MEMORY_LIMIT_MB * number_dcs * NODES_IN_DC) - containers * CONTAINER_MEMORY
+    human_result_gb, human_result_mb = memory_free // 1024, memory_free % 1024
     print(int(number_dcs), int(memory_free), int(human_result_gb), int(human_result_mb))
 
