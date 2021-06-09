@@ -1,11 +1,3 @@
-def calc_average_load(load):
-    avg_load = 0
-    for element in load:
-        avg_load += element
-
-    return avg_load / len(load)
-
-
 def calc_median(load):
     sorted_load = sorted(load)
     quotient, remainder = divmod(len(sorted_load), 2)
