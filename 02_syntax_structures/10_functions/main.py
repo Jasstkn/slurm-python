@@ -17,7 +17,7 @@ def main():
             rps_values.append(int(user_input))
 
     int_rps_values = format_input(user_input, is_user_input_list, rps_values)
-    average_load, median, numbers_frequency = get_params(int_rps_values, is_user_input_list)
+    average_load, median, numbers_frequency = get_params(int_rps_values)
     load_result = get_load_type(average_load, median)
     print(average_load, median, load_result)
     print(numbers_frequency)
@@ -38,21 +38,15 @@ def format_input(user_input, user_input_list, rps_values):
         return [int(element) for element in rps_values]
 
 
-def get_params(load, user_input_list):
+def get_params(load):
     """
     Get required values
     :param load: load: list with integers values
-    :param user_input_list: if user input is a list
     :return: avg_load, median, numbers_frequency
     """
-    if user_input_list:
-        avg_load = int(sum(load) / len(load))
-        median = int(calc_median(load))
-        numbers_frequency = get_frequency(load)
-    else:
-        avg_load = int(sum(load) / len(load))
-        median = int(calc_median(load))
-        numbers_frequency = get_frequency(load)
+    avg_load = int(sum(load) / len(load))
+    median = int(calc_median(load))
+    numbers_frequency = get_frequency(load)
     return avg_load, median, numbers_frequency
 
 
