@@ -14,7 +14,10 @@ def main():
         elif ";" in user_input:
             rps_values.extend(user_input.split(";"))
         else:
-            rps_values.append(int(user_input))
+            try:
+                rps_values.append(int(user_input))
+            except ValueError:
+                print("Было введено неверное значение")
 
     int_rps_values = format_input(user_input, is_user_input_list, rps_values)
     average_load, median, numbers_frequency = get_params(int_rps_values)
@@ -23,19 +26,18 @@ def main():
     print(numbers_frequency)
 
 
-def format_input(user_input, user_input_list, rps_values):
+def format_input(user_input, is_user_input_list, rps_values):
     """
     Accept raw data and type of the input
     :param user_input: User input
-    :param user_input_list: Boolean variable for checking if user input is a list
+    :param is_user_input_list: Boolean variable for checking if user input is a list
     :param rps_values: Raw data
     :return: List with int values of data
     """
-    if user_input_list:
+    if is_user_input_list:
         left, right = user_input[1:-1].split(",")
         return [int(element) for element in rps_values[int(left):int(right)]]
-    else:
-        return [int(element) for element in rps_values]
+    return [int(element) for element in rps_values]
 
 
 def get_params(load):
@@ -70,10 +72,9 @@ def get_load_type(avg_load, mdn_load):
     """
     if avg_load < mdn_load:
         return "Снижения"
-    if 0.75 * avg_load < mdn_load or mdn_load < 1.25 * avg_load:
+    if 0.75 * avg_load < mdn_load < 1.25 * avg_load:
         return "Стабильная"
-    else:
-        return "Скачки"
+    return "Скачки"
 
 
 def get_frequency(load):
@@ -84,10 +85,8 @@ def get_frequency(load):
     """
     frequency_dict = {}
     for element in load:
-        if element in frequency_dict.keys():
-            frequency_dict[element] += 1
-        else:
-            frequency_dict[element] = 0
+        current_frequency = frequency_dict.setdefault(element, 0)
+        frequency_dict[element] = current_frequency + 1
     return frequency_dict
 
 
