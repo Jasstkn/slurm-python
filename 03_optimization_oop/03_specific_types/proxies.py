@@ -60,7 +60,7 @@ def serve_request(proxies):
     for request in range(0, 1000):
         proxy = next(gen)
         print(f"Обращение при помощи прокси {proxy}")
-        if not is_allowed(proxy):
+        if is_allowed(proxy):
             print(f"Было осуществлено обращение к ресурсу при помощи прокси {proxy}")
 
     print(f"Не забанено {len(not_banned_proxies)} прокси.")
